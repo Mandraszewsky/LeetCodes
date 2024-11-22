@@ -21,9 +21,80 @@
         //var result = KnapsackProblem(4, [1, 2, 3], [4, 5, 1]);
         //var result = StringPalindrome("mabam");
         //var result = FindPairGivenDifference([5, 20, 3, 2, 5, 80], 78);
+        //var result = MatSearch([[3, 30, 38], [44, 52, 54], [57, 60, 62]], 62);
+        //var result = MinNumberOfCoins(43);
+        //var result = ProductPair([10, 20, 9, 40], 400);
 
         //Console.WriteLine(result);
 
+    }
+
+    public static bool ProductPair(int[] arr, long x)
+    {
+        //first try:
+        //for (int i = 0; i < arr.Length; i++)
+        //{
+        //    for (int j = i + 1; j < arr.Length; j++)
+        //    {
+        //        if ((long)arr[i] * arr[j] == x)
+        //            return true;
+        //    }
+        //}
+
+        //return false;
+
+        //second try (better):
+        Array.Sort(arr);
+
+        int left = 0; int right = arr.Length - 1;
+
+        while (left < right)
+        {
+            long currentProduct = (long)arr[left] * arr[right];
+
+            if (currentProduct == x)
+                return true;
+
+            if (currentProduct > x)
+                right--;
+            else
+                left++;
+        }
+
+        return false;
+
+    }
+
+
+    public static List<int> MinNumberOfCoins(int n)
+    {
+        List<int> result = new List<int>();
+        int[] currency = { 1, 2, 5, 10, 20, 50, 100, 200, 500, 2000 };
+
+        for (int i = currency.Length - 1; i >= 0; i--)
+        {
+            while (n >= currency[i])
+            {
+                n -= currency[i];
+                result.Add(currency[i]);
+            }
+        }
+
+        return result;
+    }
+
+    public static bool MatSearch(int[][] mat, int x)
+    {
+        for (int i = 0; i < mat.Length; i++)
+        {
+            for (int j = 0; j < mat[i].Length; j++)
+            {
+                if (mat[i][j] == x)
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     public static bool FindPairGivenDifference(int[] arr, int x)
