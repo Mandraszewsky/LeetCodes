@@ -35,7 +35,7 @@ public class Solution
 
     static void Main(string[] args)
     {
-        //var result = IndexesofSubarraySum([5, 3, 4], 2);
+        //var result = IndexesOfSubarraySum([5, 3, 4], 2);
         //var result = MissingInArray([1, 2, 3, 5]);
         //var result = MaxSumInArray([2, 3, -8, 7, -1, 2, 3]);
         //var result = PeakElement([1, 1, 1]);
@@ -46,10 +46,98 @@ public class Solution
         //var result = MinNumberOfCoins(43);
         //var result = ProductPair([10, 20, 9, 40], 400);
         //var result = IntToRoman(100);
+        //var result = LazyCatererProblem(3);
+        //var result = DoesRobotMovesCircular("GLGLGLG");
+        //var result = CanConstructRansomNoteFromMagazine("aa", "aab");
+        var result = IsIsomorphic("badc", "baba");
 
-        //Console.WriteLine(result);
+        Console.WriteLine(result);
 
     }
+
+    public static bool IsIsomorphic(string s, string t)
+    {
+        var dictionary = new Dictionary<char, char>();
+
+        for (int i = 0; i < s.Length; i++)
+        {
+
+            if (dictionary.ContainsKey(s[i]) && dictionary[s[i]] != t[i])
+                return false;
+            else
+                dictionary[s[i]] = t[i];
+
+            if (dictionary.Count(x => x.Value == t[i]) > 1)
+                return false;
+        }
+
+        return true;
+    }
+
+    public static bool CanConstructRansomNoteFromMagazine(string ransomNote, string magazine)
+    {
+        var dictionary = new Dictionary<char, int>();
+
+        for (int i = 0; i < magazine.Length; i++)
+        {
+            if (dictionary.ContainsKey(magazine[i]))
+                dictionary[magazine[i]]++;
+            else
+                dictionary[magazine[i]] = 1;
+        }
+
+        for (int i = 0; i < ransomNote.Length; i++)
+        {
+            if (dictionary.ContainsKey(ransomNote[i]) && dictionary[ransomNote[i]] > 0)
+                dictionary[ransomNote[i]]--;
+            else
+                return false;
+        }
+
+        return true;
+    }
+
+
+    public static string DoesRobotMovesCircular(string s)
+    {
+        int x = 0; int y = 0; int currentPosition = 0;
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            char move = s[i];
+
+            if (move == 'L')
+                currentPosition = (currentPosition + 1) % 4;
+            else if (move == 'R')
+                currentPosition = (currentPosition + 3) % 4;
+            else
+            {
+                if (currentPosition == 0)
+                    y++;
+                else if (currentPosition == 1)
+                    x++;
+                else if (currentPosition == 2)
+                    y--;
+                else if (currentPosition == 3)
+                    x--;
+            }
+        }
+
+        if (x == 0 && y == 0 || currentPosition > 0)
+            return "Circular";
+
+
+        return "Not Circular";
+    }
+
+
+    public static int LazyCatererProblem(int n)
+    {
+        var maxCuts = (n * n + n + 2) / 2;
+
+        return maxCuts;
+    }
+
 
     public static string IntToRoman(int num)
     {
@@ -279,17 +367,17 @@ public class Solution
         return missingIndex;
     }
 
-    public static int[] IndexesofSubarraySum(int[] nums, int target)
+    public static int[] IndexesOfSubarraySum(int[] nums, int target)
     {
 
-        int result = 0;
+        int result;
         bool isTarget = false;
         int[] indexResult = new int[2];
 
         for (int i = 0; i < nums.Length; i++)
         {
             result = 0;
-            indexResult[0] = i+1;
+            indexResult[0] = i + 1;
 
             for (int j = i; j < nums.Length; j++)
             {
